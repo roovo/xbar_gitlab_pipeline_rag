@@ -9,20 +9,12 @@
 # <xbar.image>https://raw.githubusercontent.com/roovo/xbar_gitlab_pipeline_rag/refs/heads/main/gitlab_pipeline_rag.png</xbar.image>
 # <xbar.abouturl>https://github.com/roovo/xbar_gitlab_pipeline_rag</xbar.abouturl>
 
-# <xbar.var>string(GITLAB_TOKEN=): Gitlab access token</xbar.dependencies>
-# <xbar.var>string(GITLAB_URL=https://gitlab.com): Of your gitlab instance</xbar.dependencies>
+# <xbar.var>string(GITLAB_URL=""): URL of your gitlab instance</xbar.var>
+# <xbar.var>string(GITLAB_TOKEN=""): Gitlab access token</xbar.var>
+# <xbar.var>string(PROJECTS_JSON=""): JSON object literal of projects and their Gitlab IDs, e.g. {"Project 1":123, "Project 2":17}</xbar.var>
 
 require 'net/http'
 require 'json'
-
-# configure your gitlab project names and their gitlab IDs
-# the name is what is displayed in xbar and you can get
-# the ID by going to the project page in gitlab and looking in
-# Settings -> General
-
-PROJECTS = { 'Project 1' => 1,
-             'Project 2' => 34,
-             'Project 3' => 27 }
 
 def api_fetch(project_id)
   uri = URI("#{ENV['GITLAB_URL']}/api/v4/projects/#{project_id}/pipelines")
@@ -68,8 +60,8 @@ def icon(status)
   end
 end
 
-
-project_pipelines = PROJECTS.map { |name, id| [name, api_fetch(id)] }
+projects = JSON.parse ENV['PROJECTS_JSON']
+project_pipelines = projects.map { |name, id| [name, api_fetch(id)] }
 latest_pipelines = project_pipelines.map { |name, p| [name, latest_pipeline(p)] }
                                     .reject { |_, p| p.empty? }
 latest_statuses = latest_pipelines.map(&:last).map { |p|  p.fetch('status', 'unknown') }
@@ -81,4 +73,3 @@ puts "---"
 latest_pipelines.each do |name, pipline|
   puts "#{icon(pipline.fetch('status', 'running'))} #{name} | href=#{pipline.fetch('web_url').gsub(/ *\d+$/, '')}"
 end
-

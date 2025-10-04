@@ -1,14 +1,14 @@
 # Gitlab Pipeline RAG
-Shows a basic RAG (Red, Amber, Green) status for Gitlab
-pipelines.
+An [xbar](https://xbarapp.com/) plugin to show the
+RAG (Red, Amber, Green) status of Gitlab pipelines.
 
 ![Example showing the Gitlab Pipeline RAG plugin menu item](./gitlab_pipeline_rag.png)
 
 The overall status is shown in the menu bar
 and the status of each project you are tracking is shown
-in the dropdown.  You can click on any of the project in
-the dropdown to go to its pipeline page in your default
-browser.
+in the dropdown.  You can click on any of the projects in
+the dropdown to go to its pipeline page on Gitlab in your
+default browser.
 
 The meanings of the circles against each project is:
 
@@ -45,20 +45,17 @@ personal access token to allow API access.  You can
 create one of these in your Gitlab profile; you will need
 to selet the _read_api_ scope.
 
-You will also need to edit the script to enter the details
-of the projects whose pipelines you wish to monitor:
+The final setting you need to enter is the PROJECTS_JSON,
+which defines the projects whose pipelines you wish to
+monitor. This is a list of names and Gitlab project IDs.
+The names are the names that will appear in the plugin
+dropdown and the ID for each project can be found by
+going to the project page in Gitlab and looking in
+Settings -> General.
 
-```ruby
-PROJECTS = { 'Project 1' => 1,
-             'Project 2' => 34,
-             'Project 3' => 27 }
-
+```json
+{"Project 1":1, "Project 2":34, "Project 3":27}
 ```
-
-This is a list of names and Gitlab project IDs.  The names
-are the names that will appear in the plugin dropdown and
-the ID for each project can be found by going to the project
-page in Gitlab and looking in Settings -> General.
 
 The plugin will run every 30s.  You can change this by
 selecting the plugin in the _Plugin browser_ in xbar and
