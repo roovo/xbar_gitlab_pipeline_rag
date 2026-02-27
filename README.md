@@ -73,3 +73,11 @@ Theres not a huge amount of error checking in the script
 so if plugin fails to connect to the gitlab instance, it
 will show some errors in xbar!
 
+## Development
+If you wish to run the script from the command line:
+
+```bash
+cp .env.example .env      # then put in the required values
+
+dotenv ./gitlab_pipeline_rag.30s.rb  # run the script
+```
