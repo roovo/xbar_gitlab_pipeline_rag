@@ -19,6 +19,7 @@ require 'json'
 def api_fetch(project_id)
   uri = URI("#{ENV['GITLAB_URL']}/api/v4/projects/#{project_id}/pipelines")
   params = { private_token: ENV['GITLAB_TOKEN'],
+             ref: 'main',
              order_by: 'updated_at',
              sort: 'desc',
              page: 1,
