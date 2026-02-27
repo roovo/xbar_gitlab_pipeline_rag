@@ -79,5 +79,6 @@ If you wish to run the script from the command line:
 ```bash
 cp .env.example .env      # then put in the required values
 
-dotenv ./gitlab_pipeline_rag.30s.rb  # run the script
+dotenv ./gitlab_pipeline_rag.30s.rb                 # run the script
+dotenv -f ".env.new" ./gitlab_pipeline_rag.30s.rb   # use alternative dotenv file
 ```
