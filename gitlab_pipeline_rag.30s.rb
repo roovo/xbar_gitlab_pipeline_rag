@@ -43,6 +43,8 @@ end
 def overall_status(statuses)
   if statuses.include? 'failed'
     'failed'
+  elsif statuses.include? 'manual'
+    'manual'
   elsif statuses.uniq == ['success']
     'success'
   else
@@ -56,6 +58,8 @@ def icon(status)
     '🟢'
   when 'failed'
     '🔴'
+  when 'manual'
+    '⚪️'
   else
     '🟠'
   end
