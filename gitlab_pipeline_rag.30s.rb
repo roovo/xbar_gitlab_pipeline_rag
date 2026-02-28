@@ -29,6 +29,8 @@ def api_fetch(project_id)
   res = Net::HTTP.get_response(uri)
   if res.is_a?(Net::HTTPSuccess)
     JSON.parse res.body
+  elsif res.is_a?(Net::HTTPUnauthorized)
+    raise "Unauthorized - has your gitlab token expired?"
   else
     []
   end
@@ -65,16 +67,23 @@ def icon(status)
   end
 end
 
-projects = JSON.parse ENV['PROJECTS_JSON']
-project_pipelines = projects.map { |name, id| [name, api_fetch(id)] }
-latest_pipelines = project_pipelines.map { |name, p| [name, latest_pipeline(p)] }
-                                    .reject { |_, p| p.empty? }
-latest_statuses = latest_pipelines.map(&:last).map { |p|  p.fetch('status', 'unknown') }
-overall = overall_status(latest_statuses)
+begin
+  projects = JSON.parse ENV['PROJECTS_JSON']
+  project_pipelines = projects.map { |name, id| [name, api_fetch(id)] }
+  latest_pipelines = project_pipelines.map { |name, p| [name, latest_pipeline(p)] }
+                                      .reject { |_, p| p.empty? }
+  latest_statuses = latest_pipelines.map(&:last).map { |p|  p.fetch('status', 'unknown') }
+  overall = overall_status(latest_statuses)
 
-puts icon(overall)
-puts "---"
+  puts icon(overall)
+  puts "---"
 
-latest_pipelines.each do |name, pipline|
-  puts "#{icon(pipline.fetch('status', 'running'))} #{name} | href=#{pipline.fetch('web_url').gsub(/ *\d+$/, '')}"
+  latest_pipelines.each do |name, pipline|
+    puts "#{icon(pipline.fetch('status', 'running'))} #{name} | href=#{pipline.fetch('web_url').gsub(/ *\d+$/, '')}"
+  end
+rescue => e
+  puts '⚠️'
+  puts "---"
+  puts e.message.gsub(/\(.*\)/, '')
 end
+
