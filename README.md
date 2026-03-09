@@ -6,18 +6,18 @@ RAG (Red, Amber, Green) status of Gitlab pipelines.
 
 The overall status is shown in the menu bar
 and the status of each project you are tracking is shown
-in the dropdown.  You can click on any of the projects in
-the dropdown to go to its pipeline page on Gitlab in your
+in the drop-down.  You can click on any of the projects in
+the drop-down to go to its pipeline page on Gitlab in your
 default browser.
 
 The plugin only looks at pipelines run on the `main` branch.
 
 The meanings of the circles against each project is:
 
-- 🟢 -> the most recent pipline passed
-- 🔴 -> the most recent pipline failed
-- ⚪️ -> the most recent pipleline is waiting on a manual step
-- 🟠 -> the most recent pipleline is running
+- 🟢 -> the most recent pipeline passed
+- 🔴 -> the most recent pipeline failed
+- ⚪️ -> the most recent pipeline is waiting on a manual step
+- 🟠 -> the most recent pipeline is running
 
 Cancelled pipelines are ignored.
 
@@ -25,9 +25,9 @@ The meanings of the circle in the menu bar (showing the
 overall status) is:
 
 - 🟢 -> all the most recent pipelines passed
-- 🔴 -> at least one of the most recent piplines failed
+- 🔴 -> at least one of the most recent pipelines failed
 - ⚪️ -> there are no failures and at least one of the
-        piplelines is waiting on a manual step
+        pipelines is waiting on a manual step
 - 🟠 -> there are no failures and at least one of the
         pipelines is currently running
 
@@ -44,17 +44,17 @@ _Open plugin folder..._).
 You will need to set a few things up once it is installed.
 
 First, open the xbar _Plugin browser_ and select the plugin
-in the left-hand pane. You will need to enter the url for
+in the left-hand pane. You will need to enter the URL for
 the Gitlab instance you wish to connect to as well as a
 personal access token to allow API access.  You can
 create one of these in your Gitlab profile; you will need
-to selet the _read_api_ scope.
+to select the _read_api_ scope.
 
 The final setting you need to enter is the PROJECTS_JSON,
 which defines the projects whose pipelines you wish to
 monitor. This is a list of names and Gitlab project IDs.
 The names are the names that will appear in the plugin
-dropdown and the ID for each project can be found by
+drop-down and the ID for each project can be found by
 going to the project page in Gitlab and looking in
 Settings -> General.
 
@@ -67,7 +67,7 @@ selecting the plugin in the _Plugin browser_ in xbar and
 changing the Refresh setting.
 
 ## Issues
-if a project you have configured doesn't appear in dropdown,
+if a project you have configured doesn't appear in drop-down,
 it could be that:
 
 - the project ID is wrong
@@ -75,9 +75,9 @@ it could be that:
 - all of the last 20 pipeline runs have been canceled
 
 There is only basic error handling in the script
-so if plugin fails to connect to the gitlab instance, or
+so if plugin fails to connect to the Gitlab instance, or
 there is some other issue, you should see a warning triangle
-(⚠️) in the menu bar with a description of tne problem shown
+(⚠️) in the menu bar with a description of the problem shown
 in the menu.
 
 ## Development
