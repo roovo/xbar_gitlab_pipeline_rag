@@ -10,10 +10,13 @@ in the dropdown.  You can click on any of the projects in
 the dropdown to go to its pipeline page on Gitlab in your
 default browser.
 
+The plugin only looks at pipelines run on the `main` branch.
+
 The meanings of the circles against each project is:
 
 - 🟢 -> the most recent pipline passed
 - 🔴 -> the most recent pipline failed
+- ⚪️ -> the most recent pipleline is waiting on a manual step
 - 🟠 -> the most recent pipleline is running
 
 Cancelled pipelines are ignored.
@@ -23,6 +26,8 @@ overall status) is:
 
 - 🟢 -> all the most recent pipelines passed
 - 🔴 -> at least one of the most recent piplines failed
+- ⚪️ -> there are no failures and at least one of the
+        piplelines is waiting on a manual step
 - 🟠 -> there are no failures and at least one of the
         pipelines is currently running
 
@@ -69,9 +74,11 @@ it could be that:
 - the project has no pipelines
 - all of the last 20 pipeline runs have been canceled
 
-Theres not a huge amount of error checking in the script
-so if plugin fails to connect to the gitlab instance, it
-will show some errors in xbar!
+There is only basic error handling in the script
+so if plugin fails to connect to the gitlab instance, or
+there is some other issue, you should see a warning triangle
+(⚠️) in the menu bar with a description of tne problem shown
+in the menu.
 
 ## Development
 If you wish to run the script from the command line:
