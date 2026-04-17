@@ -1,4 +1,5 @@
 # Gitlab Pipeline RAG
+
 An [xbar](https://xbarapp.com/) plugin to show the
 RAG (Red, Amber, Green) status of Gitlab pipelines.
 
@@ -10,7 +11,9 @@ in the drop-down.  You can click on any of the projects in
 the drop-down to go to its pipeline page on Gitlab in your
 default browser.
 
-The plugin only looks at pipelines run on the `main` branch.
+The plugin only looks at pipelines run on the `main` branch
+or those which have been tagged with a version number (e.g.
+`v1.2.34`).
 
 The meanings of the circles against each project is:
 
@@ -32,6 +35,7 @@ overall status) is:
         pipelines is currently running
 
 ## Install
+
 This is an [xbar](https://xbarapp.com/) plugin.  If it is
 available (I have yet to submit it), you should install it
 using the _Plugin browser_ in the xbar app itself.
@@ -41,6 +45,7 @@ into your plugin folder (which you can find via the xbar menu
 _Open plugin folder..._).
 
 ## Setup
+
 You will need to set a few things up once it is installed.
 
 First, open the xbar _Plugin browser_ and select the plugin
@@ -67,6 +72,7 @@ selecting the plugin in the _Plugin browser_ in xbar and
 changing the Refresh setting.
 
 ## Issues
+
 if a project you have configured doesn't appear in drop-down,
 it could be that:
 
@@ -81,6 +87,7 @@ there is some other issue, you should see a warning triangle
 in the menu.
 
 ## Development
+
 If you wish to run the script from the command line:
 
 ```bash

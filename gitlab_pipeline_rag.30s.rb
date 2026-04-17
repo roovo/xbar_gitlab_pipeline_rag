@@ -19,18 +19,17 @@ require 'json'
 def api_fetch(project_id)
   uri = URI("#{ENV['GITLAB_URL']}/api/v4/projects/#{project_id}/pipelines")
   params = { private_token: ENV['GITLAB_TOKEN'],
-             ref: 'main',
-             order_by: 'updated_at',
+             order_by: 'id',
              sort: 'desc',
              page: 1,
-             per_page: 20 }
+             per_page: 100 }
   uri.query = URI.encode_www_form(params)
 
   res = Net::HTTP.get_response(uri)
   if res.is_a?(Net::HTTPSuccess)
     JSON.parse res.body
   elsif res.is_a?(Net::HTTPUnauthorized)
-    raise "Unauthorized - has your gitlab token expired?"
+    raise 'Unauthorized - has your gitlab token expired?'
   else
     []
   end
@@ -39,6 +38,7 @@ end
 def latest_pipeline(pipelines)
   pipelines
     .filter { |p| p['status'] != 'canceled' }
+    .filter { |p| p['ref'] == 'main' || p['ref'].match(/^v\d+\.\d+\.\d+$/) }
     .first || {}
 end
 
@@ -72,18 +72,17 @@ begin
   project_pipelines = projects.map { |name, id| [name, api_fetch(id)] }
   latest_pipelines = project_pipelines.map { |name, p| [name, latest_pipeline(p)] }
                                       .reject { |_, p| p.empty? }
-  latest_statuses = latest_pipelines.map(&:last).map { |p|  p.fetch('status', 'unknown') }
+  latest_statuses = latest_pipelines.map(&:last).map { |p| p.fetch('status', 'unknown') }
   overall = overall_status(latest_statuses)
 
   puts icon(overall)
-  puts "---"
+  puts '---'
 
   latest_pipelines.each do |name, pipline|
     puts "#{icon(pipline.fetch('status', 'running'))} #{name} | href=#{pipline.fetch('web_url').gsub(/ *\d+$/, '')}"
   end
-rescue => e
+rescue StandardError => e
   puts '⚠️'
-  puts "---"
+  puts '---'
   puts e.message.gsub(/\(.*\)/, '')
 end
-
