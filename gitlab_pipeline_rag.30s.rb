@@ -38,6 +38,7 @@ end
 def latest_pipeline(pipelines)
   pipelines
     .filter { |p| p['status'] != 'canceled' }
+    .filter { |p| p['status'] != 'skipped' }
     .filter { |p| p['ref'] == 'main' || p['ref'].match(/^v\d+\.\d+\.\d+$/) || p['ref'].match(/^\d+\.\d+\.\d+$/) }
     .first || {}
 end
